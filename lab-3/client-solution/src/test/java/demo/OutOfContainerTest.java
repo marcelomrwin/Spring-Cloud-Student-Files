@@ -20,36 +20,37 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 /**
- * Out-of-container test for the config client.
- * Verifies everything -- except for the call to the config server.
+ * Out-of-container test for the config client. Verifies everything -- except
+ * for the call to the config server.
  * 
  * @author ken krueger
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @WebAppConfiguration
-@ActiveProfiles("local-test")	//	"Keep the 'NorthAmerica" profile from loading, keep the external config server from being called.
+@ActiveProfiles("local-test") // "Keep the 'NorthAmerica" profile from loading, keep the external config
+								// server from being called.
 public class OutOfContainerTest {
 
-	@Autowired WebApplicationContext spring;
+	@Autowired
+	WebApplicationContext spring;
 	MockMvc mockMvc;
-	
+
 	@Before
 	public void setup() {
 		mockMvc = MockMvcBuilders.webAppContextSetup(spring).build();
 	}
-	
+
 	@Test
 	public void teamListRetrieved() throws Exception {
 
-		//	Test if the client application is working with the exception of the call to the server.:
-		mockMvc.perform(get("/lucky-word"))
-			.andExpect(status().isOk())
-			.andExpect(content().string("The lucky word is: testing"))
-			;
+		// Test if the client application is working with the exception of the call to
+		// the server.:
+		mockMvc.perform(get("/lucky-word")).andExpect(status().isOk())
+				.andExpect(content().string("The lucky word is: testing"));
 	}
 
-	//	Load test properties to satisfy the lucky-word placeholder:
+	// Load test properties to satisfy the lucky-word placeholder:
 	@Configuration
 	@Import(Application.class)
 	@PropertySource("classpath:/demo/test.properties")
