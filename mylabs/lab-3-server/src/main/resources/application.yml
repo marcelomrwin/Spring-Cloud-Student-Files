@@ -1,0 +1,10 @@
+---
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/marcelomrwin/Spring-Cloud-Student-Files
+          searchPaths: mylabs/ConfigData
+server:
+  port: 8001
